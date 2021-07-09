@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="AFIP"
+  targetNamespace="AFIP">
+
+  <types>
+    <xsd:schema targetNamespace="AFIP">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+    </xsd:schema>
+  </types>
+
+  <message name="calcularImpuestoRequest">
+    <part name="importe" type="xsd:float" />
+    <part name="impuesto" type="xsd:float" />
+  </message>
+
+  <message name="calcularImpuestoResponse">
+    <part name="return" type="xsd:float" />
+  </message>
+
+  <portType name="AFIPPortType">
+    <!-- METODO calcularImpuesto -->
+    <operation name="calcularImpuesto">
+      <documentation>Función que recibe un IMPORTE y un IMPUESTO para luego retornar el IMPORTE con el IMPUESTO Sumado/Agregado</documentation>
+      <input message="tns:calcularImpuestoRequest"/>
+      <output message="tns:calcularImpuestoResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="AFIPBinding" type="tns:AFIPPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    
+    <!-- METODO calcularImpuesto -->
+    <operation name="calcularImpuesto">
+      <soap:operation soapAction="AFIP#calcularImpuesto" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="AFIP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="AFIP" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="AFIP">
+    <port name="AFIPPort" binding="tns:AFIPBinding">
+      <!-- SIEMPRE AJUSTAR EL ATRIBUTO LOCATION A LA URL DONDE ESTA EL ARCHIVO SERVIDOR -->
+      <soap:address location="http://localhost/PHP_WS/Clase03/02-SoapServer_WSDL/servidor.php"/>
+      <!--soap:address location="http://localhost/PHP_WS/Clase03/02-SoapServer_WSDL/servidor.noclass.php"/-->
+    </port>
+  </service>
+  
+</definitions>
