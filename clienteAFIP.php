@@ -81,9 +81,14 @@ if(isset($_GET['importe']) && isset($_GET['impuesto'])){
         }
 
         footer{
-            padding: 10px;
+            padding: 20px;
             background-color: lightskyblue;
             text-align: center;
+        }
+
+        section{
+            margin: 12px;
+            margin-bottom: 20px;
         }
 
     </style>
